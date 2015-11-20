@@ -1,0 +1,40 @@
+{
+  "name": "vending-machine",
+  "version": "0.0.1",
+  "description": "An exercise to build the brains of a vending machine using a TDD approach.",
+  "main": "lib/vending_machine.js",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "test": "mocha test/*.test.js"
+  },
+  "devDependencies": {
+    "mocha": "*",
+    "chai": "*",
+    "expect": "*"
+  },
+  "homepage": "https://github.com/valeriod/vending-machine-kata",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/valeriod/vending-machine-kata.git",
+    "web": "https://github.com/valeriod/vending-machine-kata.git"
+  },
+  "keywords": [
+    "kata",
+    "vending",
+    "machine",
+    "BDD"
+  ],
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "author": "Valerio della Porta <valerio@della-porta.com> (http://valerio.della-porta.com)",
+  "license": "MIT",
+  "dependencies": {
+    "chai": "^3.4.1"
+  },
+	"docco_husky": {
+    "css": "docs/docco_alt.css"                
+	}
+}
