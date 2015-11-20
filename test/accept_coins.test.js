@@ -51,7 +51,7 @@ describe('vending machine ', function(){
 			expect(vending_machine.get_display()).to.eq('INSERT COIN');
 		});
 	});	
-	describe('accept coins ', function(){
+	describe('accept coins', function(){
 		it("accepts a nickel", function() {
 			var aNickel = coin_specs.Nickel;
 			expect(vending_machine.insert_coin(aNickel.w, aNickel.dia, aNickel.th)).to.eql(5);
@@ -79,4 +79,21 @@ describe('vending machine ', function(){
 			expect(coin_return.QuarterDollar).to.eql(0);
 		});
 	});
+	describe('reject coins', function(){
+		it("reject a Cent", function() {
+			var aCent = coin_specs.Cent;
+			expect(vending_machine.insert_coin(aCent.w, aCent.dia, aCent.th)).to.eql(0);
+		});
+	});
+	describe('coin return', function(){
+		var coin_return = vending_machine.get_coin_return();
+		it("has 1 rejected coin", function() {
+			expect(coin_return.Rejected).to.eql(1);
+			expect(coin_return.Nickel).to.eql(0);
+			expect(coin_return.Dime).to.eql(0);
+			expect(coin_return.QuarterDollar).to.eql(0);
+		});
+	});
+	
+	
 });
