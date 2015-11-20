@@ -94,6 +94,27 @@ describe('vending machine ', function(){
 			expect(coin_return.QuarterDollar).to.eql(0);
 		});
 	});
-	
-	
+	describe('accept coins', function(){
+		it("accepts a Dime", function() {
+			var aDimel = coin_specs.Dime;
+			expect(vending_machine.insert_coin(aDimel.w, aDimel.dia, aDimel.th)).to.eql(10);
+		});
+		it("accepts a QuarterDollar", function() {
+			var aQuarterDollar = coin_specs.QuarterDollar;
+			expect(vending_machine.insert_coin(aQuarterDollar.w, aQuarterDollar.dia, aQuarterDollar.th)).to.eql(25);
+		});
+	});
+	describe('machine display', function(){	
+		it('shows inserted amount (40)', function() {
+			expect(vending_machine.get_display()).to.eq(40);
+		});			
+	});
+	describe('coin dispenser', function(){
+		var coin_dispenser = vending_machine.get_coin_dispenser();
+		it("has one nickel, one dime and one quarter", function() {
+			expect(coin_dispenser.Nickel).to.eql(1);
+			expect(coin_dispenser.Dime).to.eql(1);
+			expect(coin_dispenser.QuarterDollar).to.eql(1);
+		});
+	});
 });
