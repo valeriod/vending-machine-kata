@@ -5,19 +5,19 @@
 Sources: <a href="https://www.usmint.gov/about_the_mint/?action=coin_specifications">US Mint</a>, <a href="http://www.madehow.com/Volume-4/Change-Machine.html">Change Machine</a>.
 An object that is keyed by weight, diameter and thicknes returns the value in cents for any of the coins we accept.</p>
 </td><td class="code"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">coin_specs</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="mi">5</span><span class="o">:</span><span class="p">{</span><span class="mf">21.21</span><span class="o">:</span><span class="p">{</span><span class="mf">1.95</span><span class="o">:</span><span class="mi">5</span><span class="p">}}</span>  <span class="c1">// Nickel</span>
-<span class="p">}</span>
-  
-
-<span class="kd">var</span> <span class="nx">current_amount</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span></pre></div></td></tr><tr id="section-3"><td class="docs"><div class="pilwrap"><a href="#section-3" class="pilcrow">&#182;</a></div><h2>Features</h2>
-</td><td class="code"><div class="highlight"><pre><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span></pre></div></td></tr><tr id="section-4"><td class="docs"><div class="pilwrap"><a href="#section-4" class="pilcrow">&#182;</a></div><h2>Accept Coins</h2>
+  <span class="mi">5</span><span class="o">:</span><span class="p">{</span><span class="mf">21.21</span><span class="o">:</span><span class="p">{</span><span class="mf">1.95</span><span class="o">:</span><span class="p">{</span><span class="nx">amount</span><span class="o">:</span><span class="mi">5</span><span class="p">,</span> <span class="nx">name</span><span class="o">:</span><span class="s1">&#39;Nickel&#39;</span><span class="p">}}}</span>  <span class="c1">// Nickel</span>
+<span class="p">}</span></pre></div></td></tr><tr id="section-3"><td class="docs"><div class="pilwrap"><a href="#section-3" class="pilcrow">&#182;</a></div><p>Inserted coins are placed in the coin dispenser.</p>
+</td><td class="code"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">coin_dispenser</span> <span class="o">=</span> <span class="p">{</span><span class="nx">Nickel</span><span class="o">:</span><span class="mi">0</span><span class="p">,</span> <span class="nx">Dime</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">QuarterDollar</span><span class="o">:</span> <span class="mi">0</span><span class="p">}</span>
+<span class="kd">var</span> <span class="nx">current_amount</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span></pre></div></td></tr><tr id="section-4"><td class="docs"><div class="pilwrap"><a href="#section-4" class="pilcrow">&#182;</a></div><h2>Features</h2>
+</td><td class="code"><div class="highlight"><pre><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span></pre></div></td></tr><tr id="section-5"><td class="docs"><div class="pilwrap"><a href="#section-5" class="pilcrow">&#182;</a></div><h2>Accept Coins</h2>
 
 <p>The vending machine will accept valid coins (nickels, dimes, and quarters) and reject invalid ones (pennies)
  When a valid coin is inserted the amount of the coin will be added to the current amount and the display will be updated.</p>
 </td><td class="code"><div class="highlight"><pre>  <span class="nx">insert_coin</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">weight</span><span class="p">,</span> <span class="nx">diameter</span><span class="p">,</span> <span class="nx">thickness</span><span class="p">){</span>
     <span class="k">if</span><span class="p">(</span><span class="k">typeof</span> <span class="nx">coin_specs</span><span class="p">[</span><span class="nx">weight</span><span class="p">][</span><span class="nx">diameter</span><span class="p">][</span><span class="nx">thickness</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;undefined&#39;</span><span class="p">){</span>
-      <span class="kd">var</span> <span class="nx">amount</span> <span class="o">=</span> <span class="nx">coin_specs</span><span class="p">[</span><span class="nx">weight</span><span class="p">][</span><span class="nx">diameter</span><span class="p">][</span><span class="nx">thickness</span><span class="p">];</span>
+      <span class="kd">var</span> <span class="nx">amount</span> <span class="o">=</span> <span class="nx">coin_specs</span><span class="p">[</span><span class="nx">weight</span><span class="p">][</span><span class="nx">diameter</span><span class="p">][</span><span class="nx">thickness</span><span class="p">].</span><span class="nx">amount</span><span class="p">;</span>
       <span class="nx">current_amount</span> <span class="o">+=</span> <span class="nx">amount</span>
+      <span class="nx">coin_dispenser</span><span class="p">[</span><span class="nx">coin_specs</span><span class="p">[</span><span class="nx">weight</span><span class="p">][</span><span class="nx">diameter</span><span class="p">][</span><span class="nx">thickness</span><span class="p">].</span><span class="nx">name</span><span class="p">]</span><span class="o">++</span><span class="p">;</span>
       <span class="k">return</span> <span class="nx">amount</span><span class="p">;</span>
     <span class="p">}</span><span class="k">else</span><span class="p">{</span>
       <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
@@ -25,7 +25,10 @@ An object that is keyed by weight, diameter and thicknes returns the value in ce
   <span class="p">},</span>
   <span class="nx">get_display</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
     <span class="k">return</span> <span class="nx">current_amount</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">?</span> <span class="s1">&#39;INSERT COIN&#39;</span> <span class="o">:</span> <span class="nx">current_amount</span><span class="p">;</span>
+  <span class="p">},</span>
+  <span class="nx">get_coin_dispenser</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+    <span class="k">return</span> <span class="nx">coin_dispenser</span><span class="p">;</span>
   <span class="p">}</span>
 <span class="p">}</span>
 
-</pre></div></td></tr></tbody></table><div id="generated">generated Fri Nov 20 2015 11:47:05 GMT-0500 (EST)  </div></div></body></html>
+</pre></div></td></tr></tbody></table><div id="generated">generated Fri Nov 20 2015 12:54:56 GMT-0500 (EST)  </div></div></body></html>
