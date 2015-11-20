@@ -28,6 +28,24 @@ describe('vending machine ', function(){
 			expect(coin_dispenser.QuarterDollar).to.eql(0);
 		});
 	});
+	describe('coin return', function(){
+		var coin_return = vending_machine.get_coin_return();
+		it("has a coin_return object", function() {
+			expect(typeof coin_return).to.eql('object');
+		});
+		it("has Rejected, Nickel, Dime and QuarterDollar properties", function() {
+			expect(coin_return).to.have.ownProperty('Rejected');
+			expect(coin_return).to.have.ownProperty('Nickel');
+			expect(coin_return).to.have.property('Dime');
+			expect(coin_return).to.have.property('QuarterDollar');
+		});
+		it("has no coins initially", function() {
+			expect(coin_return.Rejected).to.eql(0);
+			expect(coin_return.Nickel).to.eql(0);
+			expect(coin_return.Dime).to.eql(0);
+			expect(coin_return.QuarterDollar).to.eql(0);
+		});
+	});
 	describe('machine display', function(){	
 		it('shows INSERT COIN', function() {
 			expect(vending_machine.get_display()).to.eq('INSERT COIN');
@@ -50,6 +68,15 @@ describe('vending machine ', function(){
 			expect(coin_dispenser.Nickel).to.eql(1);
 			expect(coin_dispenser.Dime).to.eql(0);
 			expect(coin_dispenser.QuarterDollar).to.eql(0);
+		});
+	});
+	describe('coin return', function(){
+		var coin_return = vending_machine.get_coin_return();
+		it("has no coins", function() {
+			expect(coin_return.Rejected).to.eql(0);
+			expect(coin_return.Nickel).to.eql(0);
+			expect(coin_return.Dime).to.eql(0);
+			expect(coin_return.QuarterDollar).to.eql(0);
 		});
 	});
 });
