@@ -1,4 +1,7 @@
 var expect = require('chai').expect;
+// Re-initialize the module when we are running all the tests from npm
+var mod_name = require.resolve('../lib/vending_machine.js');
+if(mod_name) delete require.cache[mod_name];
 var vending_machine = require('../lib/vending_machine.js');
 
 // We define coins by weight, diameter and thickness.
