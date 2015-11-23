@@ -9,7 +9,7 @@ portion of the effort will be in determining what tests should be written and, m
 
 Notes
 =====
-I believe that [Literate Programming](http://www-cs-faculty.stanford.edu/~uno/lp.html) is essential in today's software development so i embedded the requirements and my thinking process as markdown in the code and then I generated the docs with [docco-husky](https://github.com/mbrevoort/docco-husky).
+I believe that [Literate Programming](http://www-cs-faculty.stanford.edu/~uno/lp.html) is essential in today's software development so I embedded the requirements and my thinking process as markdown in the code and then I generated the docs with [docco-husky](https://github.com/mbrevoort/docco-husky).
 
 I massaged the defaults for the products and the coin hopper on purpose in order to leave the existing tests untouched and show the progression of the code development.  In a real project I would have refactored the test code as I added more features.
 
