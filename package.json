@@ -12,7 +12,8 @@
   "devDependencies": {
     "mocha": "*",
     "chai": "*",
-    "expect": "*"
+    "expect": "*",
+		"docco-husky" : "*"
   },
   "homepage": "https://github.com/valeriod/vending-machine-kata",
   "repository": {

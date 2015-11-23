@@ -13,10 +13,15 @@ An object that is keyed by weight, diameter and thicknes returns the value in ce
 </td><td class="code"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">coin_return</span> <span class="o">=</span> <span class="p">{</span><span class="nx">Rejected</span><span class="o">:</span><span class="mi">0</span><span class="p">,</span> <span class="nx">Nickel</span><span class="o">:</span><span class="mi">0</span><span class="p">,</span> <span class="nx">Dime</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">QuarterDollar</span><span class="o">:</span> <span class="mi">0</span><span class="p">}</span>
 <span class="kd">var</span> <span class="nx">current_amount</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span></pre></div></td></tr><tr id="section-5"><td class="docs"><div class="pilwrap"><a href="#section-5" class="pilcrow">&#182;</a></div><p>There are three products: 
 cola for $1.00, chips for $0.50, and candy for $0.65.</p>
-</td><td class="code"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">products</span> <span class="o">=</span> <span class="p">{</span><span class="nx">cola</span><span class="o">:</span> <span class="mi">100</span><span class="p">,</span> <span class="nx">chips</span><span class="o">:</span> <span class="mi">50</span><span class="p">,</span> <span class="nx">candy</span><span class="o">:</span> <span class="mi">65</span><span class="p">}</span>
+</td><td class="code"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">products</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">cola</span><span class="o">:</span> <span class="p">{</span><span class="nx">amt</span><span class="o">:</span><span class="mi">100</span><span class="p">,</span> <span class="nx">qty</span><span class="o">:</span><span class="mi">0</span><span class="p">},</span> 
+  <span class="nx">chips</span><span class="o">:</span> <span class="p">{</span><span class="nx">amt</span><span class="o">:</span><span class="mi">50</span><span class="p">,</span> <span class="nx">qty</span><span class="o">:</span><span class="mi">0</span><span class="p">},</span> 
+  <span class="nx">candy</span><span class="o">:</span> <span class="p">{</span><span class="nx">amt</span><span class="o">:</span><span class="mi">65</span><span class="p">,</span> <span class="nx">qty</span><span class="o">:</span><span class="mi">5</span><span class="p">}</span>
+<span class="p">}</span>
 <span class="kd">var</span> <span class="nx">currently_selected_product</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
 <span class="kd">var</span> <span class="nx">product_dispensed</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
-<span class="kd">var</span> <span class="nx">show_price</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span></pre></div></td></tr><tr id="section-6"><td class="docs"><div class="pilwrap"><a href="#section-6" class="pilcrow">&#182;</a></div><h2>Features</h2>
+<span class="kd">var</span> <span class="nx">show_price</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">product_sold_out</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span></pre></div></td></tr><tr id="section-6"><td class="docs"><div class="pilwrap"><a href="#section-6" class="pilcrow">&#182;</a></div><h2>Features</h2>
 </td><td class="code"><div class="highlight"><pre><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span></pre></div></td></tr><tr id="section-7"><td class="docs"><div class="pilwrap"><a href="#section-7" class="pilcrow">&#182;</a></div><h2>Accept Coins</h2>
 
 <p>The vending machine will accept valid coins (nickels, dimes, and quarters) and reject invalid ones (pennies)
@@ -42,9 +47,12 @@ cola for $1.00, chips for $0.50, and candy for $0.65.</p>
       <span class="nx">currently_selected_product</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
       <span class="k">return</span> <span class="s1">&#39;THANK YOU&#39;</span><span class="p">;</span>
     <span class="p">}</span><span class="k">else</span><span class="p">{</span>
-      <span class="k">if</span><span class="p">(</span><span class="nx">show_price</span><span class="p">){</span>
+      <span class="k">if</span><span class="p">(</span><span class="nx">product_sold_out</span><span class="p">){</span>
+        <span class="nx">product_sold_out</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+        <span class="k">return</span> <span class="s1">&#39;SOLD OUT&#39;</span> 
+      <span class="p">}</span><span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="nx">show_price</span><span class="p">){</span>
         <span class="nx">show_price</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
-        <span class="k">return</span> <span class="s1">&#39;PRICE &#39;</span> <span class="o">+</span> <span class="nx">products</span><span class="p">[</span><span class="nx">currently_selected_product</span><span class="p">];</span>
+        <span class="k">return</span> <span class="s1">&#39;PRICE &#39;</span> <span class="o">+</span> <span class="nx">products</span><span class="p">[</span><span class="nx">currently_selected_product</span><span class="p">].</span><span class="nx">amt</span><span class="p">;</span>
       <span class="p">}</span><span class="k">else</span><span class="p">{</span>
         <span class="k">return</span> <span class="nx">current_amount</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">?</span> <span class="s1">&#39;INSERT COIN&#39;</span> <span class="o">:</span> <span class="nx">current_amount</span><span class="p">;</span>
       <span class="p">}</span>
@@ -65,42 +73,71 @@ cola for $1.00, chips for $0.50, and candy for $0.65.</p>
 <p>Return extra money, logic in dispense_product()</p>
 </td><td class="code"><div class="highlight"><pre>  <span class="nx">select_product</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">product_key</span><span class="p">){</span>
     <span class="k">if</span><span class="p">(</span><span class="nx">products</span><span class="p">[</span><span class="nx">product_key</span><span class="p">]){</span>
-      <span class="nx">currently_selected_product</span> <span class="o">=</span> <span class="nx">product_key</span><span class="p">;</span>
-      <span class="nx">dispense_product</span><span class="p">();</span>
+      <span class="k">if</span><span class="p">(</span><span class="nx">products</span><span class="p">[</span><span class="nx">product_key</span><span class="p">].</span><span class="nx">qty</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">){</span>
+        <span class="nx">currently_selected_product</span> <span class="o">=</span> <span class="nx">product_key</span><span class="p">;</span>
+        <span class="nx">dispense_product</span><span class="p">();</span>
+      <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+        <span class="nx">product_sold_out</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+      <span class="p">}</span>
       <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
     <span class="p">}</span>
     <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+  <span class="p">},</span></pre></div></td></tr><tr id="section-11"><td class="docs"><div class="pilwrap"><a href="#section-11" class="pilcrow">&#182;</a></div><h2>Return Coins</h2>
+
+<p>When the return coins is selected, the money the customer has placed in the machine is returned and the display shows INSERT COIN.</p>
+</td><td class="code"><div class="highlight"><pre>  <span class="nx">return_coins</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+    <span class="k">for</span><span class="p">(</span><span class="nx">coin_denomination</span> <span class="k">in</span> <span class="nx">coin_dispenser</span><span class="p">){</span>
+      <span class="nx">coin_return</span><span class="p">[</span><span class="nx">coin_denomination</span><span class="p">]</span> <span class="o">=</span> <span class="nx">coin_dispenser</span><span class="p">[</span><span class="nx">coin_denomination</span><span class="p">];</span>
+      <span class="nx">coin_dispenser</span><span class="p">[</span><span class="nx">coin_denomination</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="nx">current_amount</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+  <span class="p">},</span></pre></div></td></tr><tr id="section-12"><td class="docs"><div class="pilwrap"><a href="#section-12" class="pilcrow">&#182;</a></div><h2>Sold Out</h2>
+
+<p>When the item selected by the customer is out of stock, the machine displays SOLD OUT.  If the display is checked again, it will display the amount of money remaining in the machine or INSERT COIN if there is no money in the machine.</p>
+</td><td class="code"><div class="highlight"><pre>  <span class="nx">add_product</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">product_key</span><span class="p">,</span> <span class="nx">qty</span><span class="p">){</span>
+    <span class="k">if</span><span class="p">(</span><span class="nx">products</span><span class="p">[</span><span class="nx">product_key</span><span class="p">]){</span>
+      <span class="nx">products</span><span class="p">[</span><span class="nx">product_key</span><span class="p">].</span><span class="nx">qty</span> <span class="o">+=</span> <span class="nx">qty</span><span class="p">;</span>
+      <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="kc">false</span>
   <span class="p">}</span>
-<span class="p">}</span></pre></div></td></tr><tr id="section-11"><td class="docs"><div class="pilwrap"><a href="#section-11" class="pilcrow">&#182;</a></div><h2>Private methods</h2>
-</td><td class="code"><div class="highlight"><pre></pre></div></td></tr><tr id="section-12"><td class="docs"><div class="pilwrap"><a href="#section-12" class="pilcrow">&#182;</a></div><p>When a product button is pressed and enough money has been inserted, the product is dispensed and the machine displays THANK YOU.  If the display is checked again, it will display INSERT COINS and the current amount will be set to $0.00.  If there is not enough money inserted then the machine displays PRICE and the price of the item and subsequent checks of the display will display either INSERT COINS or the current amount as appropriate.</p>
+  
+  
+  
+<span class="p">}</span></pre></div></td></tr><tr id="section-13"><td class="docs"><div class="pilwrap"><a href="#section-13" class="pilcrow">&#182;</a></div><h2>Private methods</h2>
+</td><td class="code"><div class="highlight"><pre></pre></div></td></tr><tr id="section-14"><td class="docs"><div class="pilwrap"><a href="#section-14" class="pilcrow">&#182;</a></div><p>When a product button is pressed and enough money has been inserted, the product is dispensed and the machine displays THANK YOU.  If the display is checked again, it will display INSERT COINS and the current amount will be set to $0.00.  If there is not enough money inserted then the machine displays PRICE and the price of the item and subsequent checks of the display will display either INSERT COINS or the current amount as appropriate.</p>
 </td><td class="code"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">dispense_product</span><span class="p">(){</span>
-  <span class="k">if</span><span class="p">(</span><span class="nx">products</span><span class="p">[</span><span class="nx">currently_selected_product</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="nx">current_amount</span><span class="p">){</span>
+  <span class="k">if</span><span class="p">(</span><span class="nx">currently_selected_product</span> <span class="o">&amp;&amp;</span> 
+  <span class="nx">products</span><span class="p">[</span><span class="nx">currently_selected_product</span><span class="p">].</span><span class="nx">amt</span> <span class="o">&lt;=</span> <span class="nx">current_amount</span><span class="p">){</span>
     <span class="nx">product_dispensed</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+    <span class="nx">products</span><span class="p">[</span><span class="nx">currently_selected_product</span><span class="p">].</span><span class="nx">qty</span><span class="o">--</span><span class="p">;</span>
     <span class="nx">make_change</span><span class="p">();</span>
   <span class="p">}</span>
   <span class="nx">set_show_price_flag</span><span class="p">();</span>
 <span class="p">}</span>
 
 <span class="kd">function</span> <span class="nx">set_show_price_flag</span><span class="p">(){</span>
-  <span class="k">if</span><span class="p">(</span><span class="nx">currently_selected_product</span> <span class="o">&amp;&amp;</span> <span class="nx">products</span><span class="p">[</span><span class="nx">currently_selected_product</span><span class="p">]</span> <span class="o">&gt;</span> <span class="nx">current_amount</span><span class="p">){</span>
+  <span class="k">if</span><span class="p">(</span><span class="nx">currently_selected_product</span> <span class="o">&amp;&amp;</span> 
+  <span class="nx">products</span><span class="p">[</span><span class="nx">currently_selected_product</span><span class="p">].</span><span class="nx">amt</span> <span class="o">&gt;</span> <span class="nx">current_amount</span><span class="p">){</span>
     <span class="nx">show_price</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
   <span class="p">}</span><span class="k">else</span><span class="p">{</span>
     <span class="nx">show_price</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
   <span class="p">}</span>
-<span class="p">}</span></pre></div></td></tr><tr id="section-13"><td class="docs"><div class="pilwrap"><a href="#section-13" class="pilcrow">&#182;</a></div><p>When a product is selected that costs less than the amount of money in the machine, then the remaining amount is placed in the coin return. </p>
+<span class="p">}</span></pre></div></td></tr><tr id="section-15"><td class="docs"><div class="pilwrap"><a href="#section-15" class="pilcrow">&#182;</a></div><p>When a product is selected that costs less than the amount of money in the machine, then the remaining amount is placed in the coin return. </p>
 </td><td class="code"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">make_change</span><span class="p">(){</span>
-  <span class="k">if</span><span class="p">(</span><span class="nx">products</span><span class="p">[</span><span class="nx">currently_selected_product</span><span class="p">]</span> <span class="o">&lt;</span> <span class="nx">current_amount</span><span class="p">){</span>
-    <span class="kd">var</span> <span class="nx">change</span> <span class="o">=</span> <span class="nx">current_amount</span> <span class="o">-</span> <span class="nx">products</span><span class="p">[</span><span class="nx">currently_selected_product</span><span class="p">];</span></pre></div></td></tr><tr id="section-14"><td class="docs"><div class="pilwrap"><a href="#section-14" class="pilcrow">&#182;</a></div><p>Return coins from higer denomination to lower one.</p>
+  <span class="k">if</span><span class="p">(</span><span class="nx">products</span><span class="p">[</span><span class="nx">currently_selected_product</span><span class="p">].</span><span class="nx">amt</span> <span class="o">&lt;</span> <span class="nx">current_amount</span><span class="p">){</span>
+    <span class="kd">var</span> <span class="nx">change</span> <span class="o">=</span> <span class="nx">current_amount</span> <span class="o">-</span> <span class="nx">products</span><span class="p">[</span><span class="nx">currently_selected_product</span><span class="p">].</span><span class="nx">amt</span><span class="p">;</span></pre></div></td></tr><tr id="section-16"><td class="docs"><div class="pilwrap"><a href="#section-16" class="pilcrow">&#182;</a></div><p>Return coins from higer denomination to lower one.</p>
 </td><td class="code"><div class="highlight"><pre>    <span class="kd">var</span> <span class="nx">QuarterDollar_qty</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">change</span><span class="o">/</span><span class="mi">25</span><span class="p">);</span> 
     <span class="nx">coin_return</span><span class="p">.</span><span class="nx">QuarterDollar</span><span class="o">++</span><span class="p">;</span>
-    <span class="nx">change</span> <span class="o">-=</span> <span class="nx">QuarterDollar_qty</span> <span class="o">*</span> <span class="mi">25</span><span class="p">;</span></pre></div></td></tr><tr id="section-15"><td class="docs"><div class="pilwrap"><a href="#section-15" class="pilcrow">&#182;</a></div><p>Dime</p>
+    <span class="nx">change</span> <span class="o">-=</span> <span class="nx">QuarterDollar_qty</span> <span class="o">*</span> <span class="mi">25</span><span class="p">;</span></pre></div></td></tr><tr id="section-17"><td class="docs"><div class="pilwrap"><a href="#section-17" class="pilcrow">&#182;</a></div><p>Dime</p>
 </td><td class="code"><div class="highlight"><pre>    <span class="kd">var</span> <span class="nx">Dime_qty</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">change</span><span class="o">/</span><span class="mi">10</span><span class="p">);</span> 
     <span class="nx">coin_return</span><span class="p">.</span><span class="nx">Dime</span><span class="o">++</span><span class="p">;</span>
-    <span class="nx">change</span> <span class="o">-=</span> <span class="nx">Dime_qty</span> <span class="o">*</span> <span class="mi">10</span><span class="p">;</span></pre></div></td></tr><tr id="section-16"><td class="docs"><div class="pilwrap"><a href="#section-16" class="pilcrow">&#182;</a></div><p>Nickel</p>
+    <span class="nx">change</span> <span class="o">-=</span> <span class="nx">Dime_qty</span> <span class="o">*</span> <span class="mi">10</span><span class="p">;</span></pre></div></td></tr><tr id="section-18"><td class="docs"><div class="pilwrap"><a href="#section-18" class="pilcrow">&#182;</a></div><p>Nickel</p>
 </td><td class="code"><div class="highlight"><pre>    <span class="kd">var</span> <span class="nx">Nickel_qty</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">change</span><span class="o">/</span><span class="mi">5</span><span class="p">);</span> 
     <span class="nx">coin_return</span><span class="p">.</span><span class="nx">Nickel</span><span class="o">++</span><span class="p">;</span>
     <span class="nx">change</span> <span class="o">-=</span> <span class="nx">Nickel_qty</span> <span class="o">*</span> <span class="mi">10</span><span class="p">;</span>
   <span class="p">}</span>
 <span class="p">}</span>
 
-</pre></div></td></tr></tbody></table><div id="generated">generated Mon Nov 23 2015 09:48:40 GMT-0500 (EST)  </div></div></body></html>
+</pre></div></td></tr></tbody></table><div id="generated">generated Mon Nov 23 2015 12:00:37 GMT-0500 (EST)  </div></div></body></html>
