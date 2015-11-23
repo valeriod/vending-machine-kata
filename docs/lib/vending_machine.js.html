@@ -59,6 +59,10 @@ cola for $1.00, chips for $0.50, and candy for $0.65.</p>
   <span class="p">},</span></pre></div></td></tr><tr id="section-10"><td class="docs"><div class="pilwrap"><a href="#section-10" class="pilcrow">&#182;</a></div><h2>Select Product</h2>
 
 <p>Select one of the available products and execute the dispensing logic.</p>
+
+<h2>Make Change</h2>
+
+<p>Return extra money, logic in dispense_product()</p>
 </td><td class="code"><div class="highlight"><pre>  <span class="nx">select_product</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">product_key</span><span class="p">){</span>
     <span class="k">if</span><span class="p">(</span><span class="nx">products</span><span class="p">[</span><span class="nx">product_key</span><span class="p">]){</span>
       <span class="nx">currently_selected_product</span> <span class="o">=</span> <span class="nx">product_key</span><span class="p">;</span>
@@ -72,6 +76,7 @@ cola for $1.00, chips for $0.50, and candy for $0.65.</p>
 </td><td class="code"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">dispense_product</span><span class="p">(){</span>
   <span class="k">if</span><span class="p">(</span><span class="nx">products</span><span class="p">[</span><span class="nx">currently_selected_product</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="nx">current_amount</span><span class="p">){</span>
     <span class="nx">product_dispensed</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+    <span class="nx">make_change</span><span class="p">();</span>
   <span class="p">}</span>
   <span class="nx">set_show_price_flag</span><span class="p">();</span>
 <span class="p">}</span>
@@ -82,6 +87,20 @@ cola for $1.00, chips for $0.50, and candy for $0.65.</p>
   <span class="p">}</span><span class="k">else</span><span class="p">{</span>
     <span class="nx">show_price</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
   <span class="p">}</span>
+<span class="p">}</span></pre></div></td></tr><tr id="section-13"><td class="docs"><div class="pilwrap"><a href="#section-13" class="pilcrow">&#182;</a></div><p>When a product is selected that costs less than the amount of money in the machine, then the remaining amount is placed in the coin return. </p>
+</td><td class="code"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">make_change</span><span class="p">(){</span>
+  <span class="k">if</span><span class="p">(</span><span class="nx">products</span><span class="p">[</span><span class="nx">currently_selected_product</span><span class="p">]</span> <span class="o">&lt;</span> <span class="nx">current_amount</span><span class="p">){</span>
+    <span class="kd">var</span> <span class="nx">change</span> <span class="o">=</span> <span class="nx">current_amount</span> <span class="o">-</span> <span class="nx">products</span><span class="p">[</span><span class="nx">currently_selected_product</span><span class="p">];</span></pre></div></td></tr><tr id="section-14"><td class="docs"><div class="pilwrap"><a href="#section-14" class="pilcrow">&#182;</a></div><p>Return coins from higer denomination to lower one.</p>
+</td><td class="code"><div class="highlight"><pre>    <span class="kd">var</span> <span class="nx">QuarterDollar_qty</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">change</span><span class="o">/</span><span class="mi">25</span><span class="p">);</span> 
+    <span class="nx">coin_return</span><span class="p">.</span><span class="nx">QuarterDollar</span><span class="o">++</span><span class="p">;</span>
+    <span class="nx">change</span> <span class="o">-=</span> <span class="nx">QuarterDollar_qty</span> <span class="o">*</span> <span class="mi">25</span><span class="p">;</span></pre></div></td></tr><tr id="section-15"><td class="docs"><div class="pilwrap"><a href="#section-15" class="pilcrow">&#182;</a></div><p>Dime</p>
+</td><td class="code"><div class="highlight"><pre>    <span class="kd">var</span> <span class="nx">Dime_qty</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">change</span><span class="o">/</span><span class="mi">10</span><span class="p">);</span> 
+    <span class="nx">coin_return</span><span class="p">.</span><span class="nx">Dime</span><span class="o">++</span><span class="p">;</span>
+    <span class="nx">change</span> <span class="o">-=</span> <span class="nx">Dime_qty</span> <span class="o">*</span> <span class="mi">10</span><span class="p">;</span></pre></div></td></tr><tr id="section-16"><td class="docs"><div class="pilwrap"><a href="#section-16" class="pilcrow">&#182;</a></div><p>Nickel</p>
+</td><td class="code"><div class="highlight"><pre>    <span class="kd">var</span> <span class="nx">Nickel_qty</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">change</span><span class="o">/</span><span class="mi">5</span><span class="p">);</span> 
+    <span class="nx">coin_return</span><span class="p">.</span><span class="nx">Nickel</span><span class="o">++</span><span class="p">;</span>
+    <span class="nx">change</span> <span class="o">-=</span> <span class="nx">Nickel_qty</span> <span class="o">*</span> <span class="mi">10</span><span class="p">;</span>
+  <span class="p">}</span>
 <span class="p">}</span>
 
-</pre></div></td></tr></tbody></table><div id="generated">generated Mon Nov 23 2015 09:21:36 GMT-0500 (EST)  </div></div></body></html>
+</pre></div></td></tr></tbody></table><div id="generated">generated Mon Nov 23 2015 09:48:40 GMT-0500 (EST)  </div></div></body></html>
